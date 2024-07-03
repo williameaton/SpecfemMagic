@@ -156,8 +156,9 @@ CUDA_LIB="${PATH_CUDA/bin\/nvcc/lib64}"
 
 # SPECFEM
 SPECFEM_DIR="${ROOT_DIR}/specfem3d_globe"
-SPECFEM_LINK="git@github.com:SPECFEM/specfem3d_globe.git"
+SPECFEM_LINK="git@github.com:williameaton/specfem3d_globe.git"
 SPECFEM_BRANCH="devel"
+
 
 # HDF5
 HDF5_LINK="https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.0/src/hdf5-1.12.0.tar.gz"
