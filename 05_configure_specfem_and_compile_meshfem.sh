@@ -18,7 +18,24 @@ make realclean
 #new='  double precision,parameter :: COURANT_SUGGESTED = 0.35d0'
 #sed -i "s/.*${ini}.*/$new/g" setup/constants.h.in
 
-if [ "$ASDF_WITH" == "--with-asdf" ]
+if [ "$PETSC_WITH" == "--with-petsc" ]
+then
+    echo "Configuring with PETSC"
+    PETSC_CONF="$PETSC_WITH PETSC_INC=$PETSC_INC PETSC_LIB=$PETSC_LIB "
+    
+    export LD_LIBRARY_PATH=$PETSC_LIB/:$LD_LIBRARY_PATH
+
+else
+    echo "Not configuring with PETSC"
+    PETSC_CONF=""
+fi
+
+
+echo $PETSC_CONF
+
+
+
+if $NEED_ASDF
 then
     FC="${HDF5_FC}"
     CC="${HDF5_CC}"
@@ -33,13 +50,17 @@ else
     echo "MPICC:____$MPICC"
 fi
 
+
+
+
 # Configure --enable-debug
 ./configure CC=$CC CXX=$CXX FC=$FC MPIFC=$MPIFC \
 CFLAGS="$CFLAGS" FCLAGS="$FCFLAGS" \
 $CUDA_WITH CUDA_LIB="$CUDA_LIB" \
 $ASDF_WITH ASDF_LIBS="$ASDF_LIBS" \
 $ADIOS_WITH ADIOS_CONFIG="$ADIOS_CONFIG" \
-${EMC_WITH} ${NETCDF_WITH} NETCDF_LIBS="'${NETCDF_LIBS}'" NETCDF_INC=${NETCDF_INC}
+$PETSC_CONF #\
+#${EMC_WITH} ${NETCDF_WITH} NETCDF_LIBS="'${NETCDF_LIBS}'" NETCDF_INC=${NETCDF_INC}
 
 # checks exit code
 if [[ $? -ne 0 ]]; then echo ERRREREOROROEOREORORO && exit 1; fi

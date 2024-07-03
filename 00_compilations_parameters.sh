@@ -7,7 +7,18 @@
 # module load pgi/17.9/64
 # module load openmpi/pgi-19.9/4.0.3rc1/64
 
-EMC_WITH="--with-emc"
+NEED_ADIOS=false
+NEED_ASDF=false
+NEED_HDF5=false
+NEED_PETSC=true
+NEED_EMC=false
+
+
+if $NEED_EMC
+then 
+    EMC_WITH="--with-emc"
+else 
+    EMC_WITH=""
 
 if [[ $HOSTNAME == *"rhea"* ]]; then
     
@@ -93,6 +104,7 @@ else
 fi
 
 
+
 #########################
 #   DIRECOTRIES INFOS   #
 #########################
@@ -102,6 +114,7 @@ PATH_CUDA=$(which nvcc)
 ASDF_DIR="${PACKAGES}/asdf-library"
 ADIOS_DIR="${PACKAGES}/adios"
 HDF5_DIR="${PACKAGES}/hdf5"
+PETSC_DIR="${PACKAGES}/petsc"
 
 #########################
 # Green Function stuff  #
@@ -155,14 +168,28 @@ MPIFC_HDF5=$HDF5_FC
 export PATH=$PATH:${HDF5_DESTDIR}/bin
 
 # ASDF
-ASDF_LINK="https://github.com/SeismicData/asdf-library.git"
-ASDF_DESTDIR="${ASDF_DIR}/build"
-ASDF_WITH="" #--with-asdf"
-ASDF_LIBS="-L${ASDF_DESTDIR}/usr/local/lib64 -lasdf"
+if $NEED_ASDF
+then 
+    echo "Using ASDF"
+    ASDF_WITH="--with-asdf"
+    ASDF_LINK="https://github.com/SeismicData/asdf-library.git"
+    ASDF_DESTDIR="${ASDF_DIR}/build"
+    ASDF_LIBS="-L${ASDF_DESTDIR}/usr/local/lib64 -lasdf"
+else 
+    echo "Not using ASDF"
+    ASDF_WITH="" 
+fi 
+
+
+# PETSC
+PETSC_LINK="https://gitlab.com/petsc/petsc.git petsc"
+PETSC_DESTDIR="${PETSC_DIR}/build"
+PETSC_LIB="${ASDF_DESTDIR}/lib"
+PETSC_INC="${ASDF_DESTDIR}/include"
+PETSC_WITH="--with-petsc"
 
 # ADIOS
 ADIOS_VERSION="2"
-
 ADIOS_BUILD="${PACKAGES}/adios-build"
 ADIOS_INSTALL="${PACKAGES}/adios-install"
 
@@ -177,5 +204,16 @@ else
     ADIOS_CONFIG="${ADIOS_INSTALL}/bin/adios_config"
     ADIOS_LINK="http://users.nccs.gov/~pnorbert/adios-1.13.1.tar.gz"
 fi
-export PATH=$PATH:${ADIOS_INSTALL}/bin
+
+if $NEED_ADIOS
+then
+    echo "Using ADIOS"
+    export PATH=$PATH:${ADIOS_INSTALL}/bin
+else 
+    echo "Not using ADIOS"
+    ADIOS_WITH=""
+    ADIOS_CONFIG=""
+fi 
+
+
 

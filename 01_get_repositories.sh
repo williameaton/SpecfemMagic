@@ -26,12 +26,12 @@ if [ ! -d $ADIOS_DIR ]; then
         mkdir adios
 
         # Get ADIOS
-        wget --no-check-certificate -O adios.tar.gz $ADIOS_LINK
-        tar -xzvf adios.tar.gz --strip-components=1 -C $ADIOS_DIR
+        #wget --no-check-certificate -O adios.tar.gz $ADIOS_LINK
+        #tar -xzvf adios.tar.gz --strip-components=1 -C $ADIOS_DIR
 
     else			
 	cd $PACKAGES
-	git clone $ADIOS_LINK $ADIOS_DIR
+	#git clone $ADIOS_LINK $ADIOS_DIR
     fi
 
     cd $ROOT_DIR
@@ -44,8 +44,8 @@ if [ ! -d $HDF5_DIR ]; then
     mkdir hdf5
 
     # Get HDF5
-    wget -O hdf5.tar.gz $HDF5_LINK
-    tar -xzvf hdf5.tar.gz --strip-components=1 -C $HDF5_DIR
+    #wget -O hdf5.tar.gz $HDF5_LINK
+    #tar -xzvf hdf5.tar.gz --strip-components=1 -C $HDF5_DIR
 
     cd $ROOT_DIR
 fi
@@ -55,8 +55,18 @@ if [ ! -d $ASDF_DIR ]; then
 
     cd $PACKAGES
     # Get ASDF
-    git clone $ASDF_LINK
+    #git clone $ASDF_LINK
 
     cd $ROOT_DIR
 fi
+
+if [ ! -d $PETSC_DIR ]; then
+    cd $PACKAGES
+    # Get PETSC
+    git clone -b release $PETSC_LINK
+    cd $ROOT_DIR
+fi
+
+
+
 
