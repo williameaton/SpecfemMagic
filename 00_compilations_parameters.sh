@@ -185,8 +185,8 @@ fi
 # PETSC
 PETSC_LINK="https://gitlab.com/petsc/petsc.git petsc"
 PETSC_DESTDIR="${PETSC_DIR}/build"
-PETSC_LIB="${ASDF_DESTDIR}/lib"
-PETSC_INC="${ASDF_DESTDIR}/include"
+PETSC_LIB="${PETSC_DESTDIR}/lib"
+PETSC_INC="${PETSC_DESTDIR}/include"
 PETSC_WITH="--with-petsc"
 
 # ADIOS
