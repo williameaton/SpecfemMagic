@@ -1,7 +1,10 @@
 # SpecfemMagic
 
 This repo contains a bunch of scripts that download, configure, and compile
-specfem as well as specfem related packages.
+specfem as well as specfem related packages. Note that this fork is 
+predominantly for installing SPECFEM3D_GLOBE with full-gravity (using PETSC). 
+
+It does not download or use the other packages such as HDF5, ADIOS, ASDF etc. 
 
 ## Main compilation parameters
 
@@ -33,6 +36,11 @@ sequentially.
 ### 4. Compile ASDF (optional)
 ```bash
 04_compile_asdf.sh
+```
+
+### 4.5 Compile PETSC (optional - needed for full gravity)
+```bash 
+04.5_compile_petsc.sh
 ```
 
 ### 5. Compile the Mesher
